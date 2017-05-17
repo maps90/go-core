@@ -1,0 +1,23 @@
+package: github.com/maps90/go-core
+import:
+- package: github.com/Sirupsen/logrus
+  version: ^0.11.5
+- package: github.com/evalphobia/logrus_sentry
+  version: ^0.2.14
+- package: github.com/go-sql-driver/mysql
+  version: ^1.3.0
+- package: github.com/jinzhu/gorm
+  version: ^1.0.0
+- package: github.com/labstack/echo
+  version: ^3.1.0
+  subpackages:
+  - middleware
+- package: github.com/labstack/gommon
+  version: ^0.2.1
+  subpackages:
+  - color
+- package: github.com/mataharimall/digital
+  subpackages:
+  - core/log
+  - core/middleware
+- package: github.com/spf13/viper
