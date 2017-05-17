@@ -1,6 +1,7 @@
 package layout
 
 import (
+	"strings"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -20,6 +21,7 @@ type Loader interface {
 
 type fsLoader struct {
 	basePath string
+	extension string
 }
 
 func (loader *fsLoader) Load() (templates []File, err error) {
@@ -31,17 +33,20 @@ func (loader *fsLoader) Load() (templates []File, err error) {
 			return nil
 		}
 
-		b, err := ioutil.ReadFile(path)
-		if err != nil {
-			return nil
-		}
+		if strings.Contains(path, loader.extension) {
 
-		rel, _ := filepath.Rel(loader.basePath, path)
-		tpl := File{
-			Name:    rel,
-			Content: b,
+			b, err := ioutil.ReadFile(path)
+			if err != nil {
+				return nil
+			}
+
+			rel, _ := filepath.Rel(loader.basePath, path)
+			tpl := File{
+				Name:    rel,
+				Content: b,
+			}
+			templates = append(templates, tpl)
 		}
-		templates = append(templates, tpl)
 		return nil
 	})
 
@@ -99,6 +104,6 @@ func (loader *bindataLoader) getDirTree(baseDir string) ([]string, error) {
 }
 
 // FSLoader returns file system template loader
-func FSLoader(path string) Loader {
-	return &fsLoader{basePath: path}
+func FSLoader(path, extension string) Loader {
+	return &fsLoader{basePath: path, extension: extension}
 }

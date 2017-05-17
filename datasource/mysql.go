@@ -1,7 +1,6 @@
 package datasource
 
 import (
-	"errors"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -28,9 +27,16 @@ func NewMysql(write, read string) *Mysql {
 
 	return m
 }
+
+func (d *Mysql) Init() {
+	d.Read()
+	d.Write()
+}
+
 func (d *Mysql) Error() error {
 	return d.err
 }
+
 func (d *Mysql) SetDebug(debug bool) {
 	d.logMode = debug
 }
@@ -44,9 +50,6 @@ func (d *Mysql) SetIdleConn(ic int) {
 }
 
 func (d *Mysql) Write() *gorm.DB {
-	if d.writerConn == "" {
-		d.err = errors.New("missing writer configuration.")
-	}
 	if dbWriteConn == nil {
 		dbWriteConn = d.createMysqlConn(d.writerConn)
 	}
@@ -55,9 +58,6 @@ func (d *Mysql) Write() *gorm.DB {
 }
 
 func (d *Mysql) Read() *gorm.DB {
-	if d.readerConn == "" {
-		d.err = errors.New("missing reader configuration.")
-	}
 	if dbReadConn == nil {
 		dbReadConn = d.createMysqlConn(d.readerConn)
 	}
@@ -74,5 +74,5 @@ func (d *Mysql) createMysqlConn(descriptor string) *gorm.DB {
 	db.DB().SetMaxIdleConns(d.maxIdleConns)
 	db.LogMode(d.logMode)
 	db.DB().SetMaxOpenConns(d.maxOpenConns)
-	return &db
+	return db
 }

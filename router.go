@@ -3,6 +3,7 @@ package core
 import (
 	"github.com/labstack/echo"
 	em "github.com/labstack/echo/middleware"
+	"github.com/maps90/go-core/log"
 	dm "github.com/maps90/go-core/middleware"
 )
 
@@ -51,7 +52,9 @@ func (r *Route) Run() {
 	echo.Debug = r.debug
 
 	echo = r.useMiddleware(echo)
-	echo.Start(":" + r.port)
+	if err := echo.Start(":" + r.port); err != nil {
+		log.New(log.InfoLevelLog, err.Error())
+	}
 }
 
 func (r *Route) SetDebug(d bool) RouterSetup {
