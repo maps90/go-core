@@ -1,5 +1,5 @@
-hash: 4f7081ef75126265c400490f7c4d450d6fbcc97489f7fea145e8521ee6ef41c3
-updated: 2017-05-17T14:23:58.584888632+07:00
+hash: 261897042bc0494b9f3da62107977b0a0ae24759df33df21cadbd92230f81922
+updated: 2017-05-17T15:25:23.888763639+07:00
 imports:
 - name: github.com/certifi/gocertifi
   version: 03be5e6bb9874570ea7fb0961225d193cbc374c5
@@ -31,7 +31,7 @@ imports:
 - name: github.com/kr/fs
   version: 2788f0dbd16903de03cb8186e5c7d97b69ad387b
 - name: github.com/labstack/echo
-  version: 1049c9613cd371b7ea8f219404c9a821734781ed
+  version: 8d504c1b699c757b267255c53b3e5219f9974abc
   subpackages:
   - middleware
 - name: github.com/labstack/gommon
@@ -77,6 +77,8 @@ imports:
   version: bf8481a6aebc13a8aab52e699ffe2e79771f5a3f
 - name: github.com/spf13/viper
   version: 50515b700e02658272117a72bd641b6b7f1222e5
+- name: github.com/tylerb/graceful
+  version: d72b0151351a13d0421b763b88f791469c4f5dc7
 - name: github.com/valyala/fasttemplate
   version: 3b874956e03f1636d171bda64b130f9135f42cff
 - name: golang.org/x/crypto
