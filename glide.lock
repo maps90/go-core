@@ -1,5 +1,5 @@
-hash: 261897042bc0494b9f3da62107977b0a0ae24759df33df21cadbd92230f81922
-updated: 2017-05-17T15:25:23.888763639+07:00
+hash: 8f044a01d8486eaf24693c003e4c616da2e48d16812e929b5255105c710ff008
+updated: 2017-05-17T15:37:40.804144947+07:00
 imports:
 - name: github.com/certifi/gocertifi
   version: 03be5e6bb9874570ea7fb0961225d193cbc374c5
@@ -43,11 +43,6 @@ imports:
   - random
 - name: github.com/magiconair/properties
   version: 0723e352fa358f9322c938cc2dadda874e9151a9
-- name: github.com/mataharimall/digital
-  version: 0e1da368224cec55998167e9eda5cf0391fafbc8
-  subpackages:
-  - core/log
-  - core/middleware
 - name: github.com/mattn/go-colorable
   version: 6c903ff4aa50920ca86087a280590b36b3152b9c
 - name: github.com/mattn/go-isatty

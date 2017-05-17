@@ -3,8 +3,7 @@ package core
 import (
 	"github.com/labstack/echo"
 	em "github.com/labstack/echo/middleware"
-	dm "github.com/mataharimall/digital/core/middleware"
-	config "github.com/spf13/viper"
+	dm "github.com/maps90/go-core/middleware"
 )
 
 type Router interface {

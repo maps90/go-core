@@ -16,8 +16,4 @@ import:
   version: ^0.2.1
   subpackages:
   - color
-- package: github.com/mataharimall/digital
-  subpackages:
-  - core/log
-  - core/middleware
 - package: github.com/spf13/viper
