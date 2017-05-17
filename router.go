@@ -9,18 +9,21 @@ import (
 type Router interface {
 	Get() *echo.Echo
 	Set(echo *echo.Echo)
+	Setup() RouterSetup
 }
 
 type RouterSetup interface {
-	SetPort(port string)
-	SetDebug(d bool)
 	Run()
+	SetPort(port string) RouterSetup
+	SetDebug(d bool) RouterSetup
+	SetLoggerName(logName string) RouterSetup
 }
 
 type Route struct {
-	port    string
-	handler *echo.Echo
-	debug   bool
+	port       string
+	handler    *echo.Echo
+	debug      bool
+	loggerName string
 }
 
 type RouteFactory func(e Router) (Router, error)
@@ -51,20 +54,26 @@ func (r *Route) Run() {
 	echo.Start(":" + r.port)
 }
 
-func (r *Route) SetDebug(d bool) {
+func (r *Route) SetDebug(d bool) RouterSetup {
 	r.debug = d
+	return r
 }
 
-func (r *Route) SetPort(port string) {
+func (r *Route) SetPort(port string) RouterSetup {
 	r.port = port
+	return r
+}
+
+func (r *Route) SetLoggerName(logName string) RouterSetup {
+	r.loggerName = logName
+	return r
 }
 
 func (r *Route) useMiddleware(echo *echo.Echo) *echo.Echo {
-
 	echo.Use(em.Recover())
 	echo.Use(em.Gzip())
 	if r.debug {
-		echo.Use(dm.Logger())
+		echo.Use(dm.Logger(r.loggerName))
 	}
 
 	return echo

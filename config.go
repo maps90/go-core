@@ -34,6 +34,7 @@ func (c *Configuration) ReadInConfig() error {
 		log.New(log.InfoLevelLog, err.Error())
 		return err
 	}
+	return nil
 }
 
 func (c *Configuration) Configure(p string) error {
