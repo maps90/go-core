@@ -30,6 +30,7 @@ func (c *Configuration) ReadInConfig() error {
 	}
 	config.SetConfigName(c.Name)
 	config.AddConfigPath(c.Path)
+	config.AddConfigPath("./")
 	if err := config.ReadInConfig(); err != nil {
 		log.New(log.InfoLevelLog, err.Error())
 		return err
