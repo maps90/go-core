@@ -3,8 +3,6 @@ package utility
 import (
 	"database/sql"
 	"fmt"
-	"math"
-	"strconv"
 	"strings"
 )
 
