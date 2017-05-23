@@ -33,7 +33,7 @@ var MessageTmpls = map[string]string{
 	"Float":         "must be valid decimal/integer value",
 	"Duplicate":     "duplicate value detected",
 	"Incremental":   "must be in incremental value, start from 1",
-	"InvalidPhone":  "must be valid phone",
+	"Phone":         "must be valid phone number",
 	"Email":         "must be valid email address",
 	"PositiveFloat": "must be positive decimal number (> 0.00)",
 }
@@ -775,5 +775,25 @@ func (b PositiveFloat) GetKey() string {
 }
 
 func (b PositiveFloat) GetLimitValue() interface{} {
+	return nil
+}
+
+
+type IsPhone struct {
+	Match
+	Key string
+}
+
+var phonePattern = regexp.MustCompile(`^(\+?\d[1-9]\s*-?|\d{2}[1-9])?\s*\d([- ]?\d){4,}$`)
+
+func (p IsPhone) DefaultMessage() string {
+	return fmt.Sprintf(MessageTmpls["Phone"])
+}
+
+func (p IsPhone) GetKey() string {
+	return p.Key
+}
+
+func (p IsPhone) GetLimitValue() interface{} {
 	return nil
 }

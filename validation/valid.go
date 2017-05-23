@@ -134,19 +134,6 @@ func (v *Validation) PhoneNumber(obj interface{}, key string) *Result {
 	return v.apply(IsPhone{Match{Regexp: phonePattern}, key}, obj)
 }
 
-// Min Test that the obj is greater than min if obj's type is int
-func (v *Validation) Min(obj interface{}, min int, key string) *Result {
-	return v.apply(Min{min, key}, obj)
-}
-
-func (v *Validation) DataDuplication(obj interface{}, source, column, key string, fun func(string, string, string) bool) *Result {
-	return v.apply(DataDuplication{source, column, key, fun}, obj)
-}
-
-func (v *Validation) PostalCode(obj interface{}, key string) *Result {
-	return v.apply(PostalCodeValidation{key}, obj)
-}
-
 // Max Test that the obj is less than max if obj's type is int
 func (v *Validation) Max(obj interface{}, max int, key string) *Result {
 	return v.apply(Max{max, key}, obj)
@@ -235,50 +222,6 @@ func (v *Validation) PositiveFloat(obj interface{}, key string) *Result {
 	return v.apply(PositiveFloat{Match{Regexp: positiveFloatPattern}, key}, obj)
 }
 
-func (v *Validation) SecureText(obj interface{}, key string) *Result {
-	sqlInjectionCheck := `('(''|[^'])*')|(;)`
-	htmlTagCheck := `<[^>]*>`
-
-	return v.SecureTextByPattern(obj, key, sqlInjectionCheck, htmlTagCheck)
-}
-
-func (v *Validation) SecureTextJS(obj interface{}, key string) *Result {
-	jsTagCheck := `<script|javascript`
-
-	return v.SecureTextByPattern(obj, key, jsTagCheck)
-}
-
-func (v *Validation) SecureTextSQL(obj interface{}, key string) *Result {
-	sqlInjectionCheck := "(?i)\\b(ALTER( +TABLE)|CREATE(( +INDEX)|( +TABLE)|( +DATABASE))|DELETE( +FROM)|DROP(( +INDEX)|( +TABLE)|( +DATABASE))|TRUNCATE( +TABLE)|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|SELECT(\\s+)[a-z0-9_`*\\.]*(\\s+)FROM|UPDATE(\\s+)[a-z0-9_`\\.]*(\\s+)SET)\\b"
-
-	return v.SecureTextByPattern(obj, key, sqlInjectionCheck)
-}
-
-func (v *Validation) SecureTextByPattern(obj interface{}, patterns ...string) *Result {
-	objExpression, err := NewExceptExpression(patterns...)
-
-	if err != nil {
-		log.Println("Error when securing text:", err)
-		return nil
-	}
-
-	switch obj.(type) {
-	case []string:
-		values := obj.([]string)
-		for _, val := range values {
-			if res := v.apply(objExpression, val); res.Ok == false {
-				return res
-			}
-		}
-
-		return &Result{
-			Ok:    true,
-			Error: nil,
-		}
-	default:
-		return v.apply(objExpression, obj)
-	}
-}
 
 func (v *Validation) apply(chk Validator, obj interface{}) *Result {
 	result := &Result{Ok: true}
