@@ -3,7 +3,6 @@ package validation
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"reflect"
 	"regexp"
 	"strings"
