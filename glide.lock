@@ -1,5 +1,5 @@
 hash: 8f044a01d8486eaf24693c003e4c616da2e48d16812e929b5255105c710ff008
-updated: 2017-05-17T15:37:40.804144947+07:00
+updated: 2017-05-23T19:46:27.013475729+07:00
 imports:
 - name: github.com/certifi/gocertifi
   version: 03be5e6bb9874570ea7fb0961225d193cbc374c5
@@ -57,6 +57,8 @@ imports:
   version: 839d9e913e063e28dfd0e6c7b7512793e0a48be9
 - name: github.com/pkg/sftp
   version: 4d0e916071f68db74f8a73926335f809396d6b42
+- name: github.com/pmylund/sortutil
+  version: abeda66eb583fac2d8d98d3d2e6fbd5c67af7947
 - name: github.com/Sirupsen/logrus
   version: ba1b36c82c5e05c4f912a88eab0dcd91a171688f
 - name: github.com/spf13/afero
