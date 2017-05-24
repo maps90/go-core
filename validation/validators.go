@@ -36,6 +36,7 @@ var MessageTmpls = map[string]string{
 	"Phone":         "must be valid phone number",
 	"Email":         "must be valid email address",
 	"PositiveFloat": "must be positive decimal number (> 0.00)",
+	"Name":          "must be valid name.",
 }
 
 func SetDefaultMessage(msg map[string]string) {
@@ -795,5 +796,24 @@ func (p IsPhone) GetKey() string {
 }
 
 func (p IsPhone) GetLimitValue() interface{} {
+	return nil
+}
+
+type IsName struct {
+	Match
+	Key string
+}
+
+var namePattern = regexp.MustCompile(`/^[a-zA-Z ".-]+$/`)
+
+func (p IsName) DefaultMessage() string {
+	return fmt.Sprintf(MessageTmpls["Name"])
+}
+
+func (p IsName) GetKey() string {
+	return p.Key
+}
+
+func (p IsName) GetLimitValue() interface{} {
 	return nil
 }

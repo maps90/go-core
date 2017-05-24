@@ -133,6 +133,10 @@ func (v *Validation) PhoneNumber(obj interface{}, key string) *Result {
 	return v.apply(IsPhone{Match{Regexp: phonePattern}, key}, obj)
 }
 
+func (v *Validation) Name(obj interface{}, key string) *Result {
+	return v.apply(IsName{Match{Regexp: namePattern}, key}, obj)
+}
+
 // Max Test that the obj is less than max if obj's type is int
 func (v *Validation) Max(obj interface{}, max int, key string) *Result {
 	return v.apply(Max{max, key}, obj)
