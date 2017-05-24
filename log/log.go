@@ -7,7 +7,6 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/evalphobia/logrus_sentry"
-	config "github.com/spf13/viper"
 )
 
 const (
@@ -17,50 +16,46 @@ const (
 	PanicLevelLog = log.PanicLevel
 )
 
-var instance *log.Logger
+var logger *log.Logger
 var once sync.Once
+var topic = "go-core"
 
 func init() {
 	log.SetFormatter(&log.JSONFormatter{})
 }
 
-func getLoggerInstance() *log.Logger {
+func getLoggerInstance(dsn string, sentry bool) *log.Logger {
 	once.Do(func() {
-		instance = log.New()
+		logger = log.New()
 
-		// implement hook for sentry
-		dsn := config.GetString("sentry.dsn")
-		hook, err := logrus_sentry.NewSentryHook(dsn, []log.Level{
-			log.PanicLevel,
-			log.FatalLevel,
-			log.ErrorLevel,
-		})
-
-		if err == nil {
-			instance.Hooks.Add(hook)
+		if sentry {
+			// implement hook for sentry
+			if hook, err := logrus_sentry.NewSentryHook(dsn, []log.Level{
+				log.PanicLevel,
+				log.FatalLevel,
+				log.ErrorLevel,
+			}); err == nil {
+				logger.Hooks.Add(hook)
+			}
 		}
 	})
 
-	return instance
+	return logger
 }
 
-func logContext() *log.Entry {
-	if config.GetBool("sentry.enabled") {
-		logger := getLoggerInstance()
-		return logger.WithFields(log.Fields{
-			"topic": "digital-products",
-			"path":  getCtx(),
-		})
-	}
-
-	return log.WithFields(log.Fields{
-		"topic": "digital-products",
+func logContext(topic string) *log.Entry {
+	return logger.WithFields(log.Fields{
+		"topic": topic,
 		"path":  getCtx(),
 	})
 }
 
-func New(level log.Level, message ...interface{}) {
-	entry := logContext()
+func Init(dsn string, sentry bool) {
+	logger = getLoggerInstance(dsn, sentry)
+}
+
+func New(level log.Level, topic string, message ...interface{}) {
+	entry := logContext(topic)
 	switch level {
 	case log.DebugLevel:
 		entry.Debug(message...)
