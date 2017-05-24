@@ -51,7 +51,6 @@ func (r *Route) Run() {
 	echo := r.handler
 	echo.Debug = r.debug
 
-	echo = r.useMiddleware(echo)
 	if err := echo.Start(":" + r.port); err != nil {
 		log.New(log.InfoLevelLog, err.Error())
 	}
