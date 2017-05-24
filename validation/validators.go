@@ -804,7 +804,7 @@ type IsName struct {
 	Key string
 }
 
-var namePattern = regexp.MustCompile(`/^[a-zA-Z ".-]+$/`)
+var namePattern = regexp.MustCompile(`^[a-zA-Z ".-]+$`)
 
 func (p IsName) DefaultMessage() string {
 	return fmt.Sprintf(MessageTmpls["Name"])
