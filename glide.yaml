@@ -17,3 +17,4 @@ import:
   subpackages:
   - color
 - package: github.com/spf13/viper
+- package: github.com/getsentry/raven-go
