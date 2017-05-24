@@ -785,7 +785,7 @@ type IsPhone struct {
 	Key string
 }
 
-var phonePattern = regexp.MustCompile(`^[0-9]+`)
+var phonePattern = regexp.MustCompile(`^[0-9]+$`)
 
 func (p IsPhone) DefaultMessage() string {
 	return fmt.Sprintf(MessageTmpls["Phone"])
