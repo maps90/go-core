@@ -59,7 +59,7 @@ imports:
   version: 4d0e916071f68db74f8a73926335f809396d6b42
 - name: github.com/pmylund/sortutil
   version: abeda66eb583fac2d8d98d3d2e6fbd5c67af7947
-- name: github.com/Sirupsen/logrus
+- name: github.com/sirupsen/logrus
   version: ba1b36c82c5e05c4f912a88eab0dcd91a171688f
 - name: github.com/spf13/afero
   version: 52e4a6cfac46163658bd4f123c49b6ee7dc75f78
