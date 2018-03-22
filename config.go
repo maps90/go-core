@@ -33,7 +33,7 @@ func (c *Configuration) ReadInConfig() error {
 		return setLocalConfig(c.Name)
 	}
 
-	color.Print(color.Green(fmt.Sprintf("⇨ connecting to consul(%v) ... ", url)))
+	color.Print(color.Green(fmt.Sprintf("⇨ connecting to consul(%v) ... ", c.URL)))
 	err := setRemoteConfig(c.URL, c.Remote)
 	if err != nil {
 		color.Println(color.Red("failed"))
