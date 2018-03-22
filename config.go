@@ -1,7 +1,6 @@
 package core
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -9,32 +8,64 @@ import (
 	"strings"
 
 	"github.com/labstack/gommon/color"
-	"github.com/maps90/go-core/log"
 	config "github.com/spf13/viper"
+
+	_ "github.com/spf13/viper/remote" // required for remote access
 )
 
 type Configuration struct {
-	Name, Path string
+	Name, Path, Remote, URL string
 }
 
-func NewConfiguration(name, path string) *Configuration {
+func NewConfiguration(name, path, remote, url string) *Configuration {
 	return &Configuration{
-		Name: name,
-		Path: path,
+		Name:   name,
+		Remote: remote,
+		URL:    url,
+		Path:   path,
 	}
 }
 
 func (c *Configuration) ReadInConfig() error {
-	if c == nil {
-		return errors.New("missing configuration.")
+	// find consul environment variables
+	if c.URL == "" {
+		color.Println(color.Green(fmt.Sprintf("⇨ using local config: '%v.yaml'", c.Name)))
+		return setLocalConfig(c.Name)
 	}
-	config.SetConfigName(c.Name)
-	config.AddConfigPath(c.Path)
-	config.AddConfigPath("./")
-	if err := config.ReadInConfig(); err != nil {
-		log.New(log.InfoLevelLog, err.Error())
+
+	color.Print(color.Green(fmt.Sprintf("⇨ connecting to consul(%v) ... ", url)))
+	err := setRemoteConfig(c.URL, c.Remote)
+	if err != nil {
+		color.Println(color.Red("failed"))
+	} else {
+		color.Println(color.Green("success!"))
+	}
+
+	return nil
+}
+
+func setLocalConfig(conf string) (err error) {
+	// set file type
+	config.SetConfigType("yaml")
+	config.SetConfigName(conf)
+	config.AddConfigPath(".")
+
+	err = config.ReadInConfig()
+	return
+}
+
+func setRemoteConfig(url string, conf string) (err error) {
+	err = config.AddRemoteProvider("consul", url, conf)
+	if err != nil {
 		return err
 	}
+
+	config.SetConfigType("yaml")
+	// read from remote config.
+	if err := config.ReadRemoteConfig(); err != nil {
+		return err
+	}
+
 	return nil
 }
 
