@@ -1,0 +1,3 @@
+[submodule "osin"]
+	path = osin
+	url = https://github.com/maps90/osin.git
